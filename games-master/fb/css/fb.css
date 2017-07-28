@@ -1,0 +1,103 @@
+*{
+	padding: 0;margin: 0;
+}
+
+body{
+	overflow: hidden;
+	/*width: 320px;
+	height: 640px;*/
+}
+#startpage{
+	width: 100%;height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 20;
+}
+#title{
+	width: 200px;
+	display: block;
+	margin: 100px auto;
+}
+#startbtn{
+	width: 120px;
+	display: block;
+	margin: 100px auto;
+	/*display: none;*/
+}
+#bgpic1{
+	width: 100%;
+	height: 800px;
+	background-color: yellow;
+	background: url(../fb/bg.jpg) #0f0;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-position: bottom;
+	position: absolute;
+	bottom: 0;
+}
+#ground{
+	width: 100%;
+	/*height: 200px;*/
+	background: url(../fb/ground.jpg) no-repeat;
+	background-size: 100%;
+	background-position: bottom;
+	/*border: solid 1px red;*/
+	position: absolute;
+	bottom: 0;
+	z-index: 10;
+}
+
+
+#game-scene{
+	width: 100%;
+	height: 100%;
+	/*background: blue;*/
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	z-index: 5;
+}
+
+#game-over-page{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 15;
+	display: none;
+}
+#game-over-page img:nth-child(1){
+	width: 200px;
+	display: block;
+	margin: 100px auto;
+	/*border: solid 1px red;*/
+}
+#game-over-page #panel{
+	width: 300px;
+	height: 150px;
+	display: block;
+	background: url(../fb/panel.png) no-repeat top;
+	background-size: 100%;
+	margin: -50px auto;
+	/*border: solid 1px red;*/
+}
+
+#panel #score_label{
+	width: 100px;height: 24px;
+	float: right;
+	text-align: center;
+	margin-top: 40px;
+	margin-right: 10px;
+	color: red;
+	font-family: "arial black";
+	font-size: 24px;
+	/*border: solid 1px red;*/
+}
+#game-over-page #restartbtn{
+	width: 120px;
+	display: block;
+	margin: 50px auto;
+}
+

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+    <!--http://www.html5rocks.com/en/mobile/mobifying/-->
+  <meta name="viewport"
+        content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1,target-densitydpi=device-dpi"/>
+
+  <!--https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no">
+
+  <!-- force webkit on 360 -->
+  <meta name="renderer" content="webkit"/>
+  <meta name="force-rendering" content="webkit"/>
+  <!-- force edge on IE -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <!-- force full screen on some browser -->
+  <meta name="full-screen" content="yes"/>
+  <meta name="x5-fullscreen" content="true"/>
+  <meta name="360-fullscreen" content="true"/>
+
+  <!-- force screen orientation on some browser -->
+  <meta name="screen-orientation" content=""/>
+  <meta name="x5-orientation" content="">
+
+  <meta name="browsermode" content="application">
+  <meta name="x5-page-mode" content="app">
+
+  <title>flappybird</title>
+  <link rel="stylesheet" href="css/fb.css" />
+
+</head>
+<body>
+	<audio src="sounds/sfx_point.ogg" id="point_audio"></audio>
+	<div id="startpage">
+		<img src="fb/getready.png" id="title" />
+		<img src="fb/startbtn.png"  id="startbtn"/>
+	</div>
+
+	<div id="bgpics">
+	<img src='fb/ground.jpg' id="ground" />
+		<div id="bgpic1"></div>
+		<div id="bgpic2"></div>
+	</div>
+
+	<div id="game-scene">
+	</div>
+
+	<div id="game-over-page">
+		<img src="fb/gameover.png" />
+		<div id="panel">
+			<div id="score_label">100</div>
+		</div>
+		<img src="fb/startbtn.png"  id="restartbtn"/>
+	</div>
+	<script type="text/javascript" src="js/fastclick.js" ></script>
+	<!--<script type="text/javascript" src="js/jquery-1.12.4.min.js" ></script>-->
+	<script type="text/javascript" src="js/zepto.js" ></script>
+	<script type="text/javascript" src="js/touch.js" ></script>
+	<script type="text/javascript" src="js/FramesAnimation.js" ></script>
+	<script src="js/fb.js"></script>
+	<script>
+
+		/* 防止双击页面跳动 */
+		window.onload = function(){
+			FastClick.attach(document.body);
+		}
+	</script>
+</body>
+</html>

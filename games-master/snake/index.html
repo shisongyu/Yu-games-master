@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+      <meta name="viewport" content="width=device-width initial-scale=1.0 minimum-scale=1.0 maximum-scale=1.0 user-scalable=no" />
+    <style>
+    html,body{width: 100%;height: 100%;}
+    body{margin: 0;padding: 0;overflow: hidden;}
+    .item{
+      width: 20px;height: 20px;
+      position: absolute;
+      left: 100px;top: 100px;
+      border: solid 1px #555;
+      background-color: #f00;
+    }
+    .food{
+      width: 20px;height: 20px;
+      position: absolute;
+      border: solid 1px #555;
+      background-color: #0f0;
+    }
+    #map{
+      width: 500px;
+      height: 500px;
+      border: solid 1px #000;
+      margin:0 auto;
+      position: relative;
+    }
+    #banner{width: 500px;height: 100px;margin: 0 auto;position: relative;
+    background-color: #eee;text-align: center;line-height: 100px;}
+    #banner h2{
+      position: absolute;right:50px;top: 0;
+    }
+    @media screen and (max-width: 500px){
+      body{background: #ddd;}
+      #map{background-color: #fff;width: 100%;height:500px;position: relative;border: none;}
+      #banner{width: 100%;position: relative;}
+    }
+    #startpage{
+      width: 100%;height: 100%;
+      position: absolute;
+      z-index: 10;text-align: center;
+      /*display: none;*/
+    }
+    #startpage h1{margin: 200px auto;}
+    #overpage{
+      width: 100%;height: 100%;
+      position: absolute;
+      z-index: 10;text-align: center;
+      display: none;
+    }
+    #overpage h1{margin: 100px auto;}
+    #overpage h2{margin: 100px;}
+    #container{width: 100%;height: 100%;
+    position: absolute;z-index: 1;}
+    </style>
+    <script src="zepto.js"></script>
+    <script src="touch.js"></script>
+  </head>
+  <body>
+
+    <div id="banner">
+      <h1>贪吃蛇</h1>
+      <h2 id="score">0</h2>
+    </div>
+    <div id="map">
+        <div id='startpage'><h1 id="startbtn">开始游戏</h1></div>
+        <div id='overpage'>
+          <h1>游戏结束</h1>
+          <h2 id="restartbtn">重新开始</h2>
+        </div>
+        <div id="container"></div>
+    </div>
+<script>
+
+document.querySelector('body').addEventListener('touchmove', function (ev) {
+    event.preventDefault();
+},false);
+
+var map = document.getElementById('container');
+var bodys = [];
+var direction = 'right';
+var IS_GAMING = false;
+var food = null;
+var SCORE = 0;
+var overpage = document.getElementById('overpage');
+var SPEED = 150;// 400 || 300 || 200 || 100 || 50
+var KEYS = {
+  65:'left',
+  87:'top',
+  68:'right',
+  83:'down'
+}
+var scoreLable = document.getElementById('score');
+function startGame(){
+  var item = document.createElement('div');
+  item.setAttribute('class','item');
+  var x = 100;
+  var y = 100;
+  item.style.left = x + 'px';
+  item.style.top = y + 'px';
+  map.appendChild(item)
+  bodys.push(item)
+}
+
+
+document.getElementById('startbtn').onclick = function(){
+  document.getElementById('startpage').style.display = 'none';
+  IS_GAMING = true;
+  startGame();
+  addFood()
+}
+
+window.addEventListener('keydown',function(e){
+    var keyCode = e.keyCode;
+
+    switch (keyCode) {
+      case 65:direction = direction == 'right' ? 'right':'left';break;
+      case 87:direction = direction == 'down' ? 'down':'top';break;
+      case 68:direction = direction == 'left' ? 'left':'right';break;
+      case 83:direction = direction == 'top' ? 'top':'down';break;
+    }
+})
+
+$('#map').swipeLeft(function(){
+  direction = direction == 'right' ? 'right':'left';
+})
+$('#map').swipeRight(function(){
+  direction = direction == 'left' ? 'left':'right';
+})
+$('#map').swipeUp(function(){
+  direction = direction == 'down' ? 'down':'top';
+})
+$('#map').swipeDown(function(){
+  direction = direction == 'top' ? 'top':'down';
+})
+
+function addFood(){
+  food = document.createElement('div');
+  food.setAttribute('class','food');
+
+  var pos = getFoodPosition();
+  food.x = pos.x;
+  food.y = pos.y;
+  food.style.left = pos.x + 'px';
+  food.style.top = pos.y + 'px';
+  map.appendChild(food)
+}
+
+function getFoodPosition(){
+  var x,y;
+  if(innerWidth <=500){
+    x = Math.floor(Math.random()*(innerWidth/20-1))*20;
+    y = Math.floor(Math.random()*(innerWidth/20-1))*20;
+  }else{
+    x = Math.floor(Math.random()*24)*20;
+    y = Math.floor(Math.random()*24)*20;
+  }
+
+  for(var i = 0;i < bodys.length;i++){
+    var b = bodys[i];
+    if(x == b.x && y == b.y){
+      getFoodPosition()
+    }
+  }
+  return {
+    x:x,y:y
+  }
+}
+
+var updateTimer = setInterval(update,SPEED)
+function update (){
+
+  if(IS_GAMING){
+
+      for(var i = 0; i< bodys.length-1;i++){
+        var b = bodys[i];
+        var b2 = bodys[i+1];
+        b.style.left = b2.x + 'px';
+        b.style.top = b2.y + 'px';
+        b.x = b.offsetLeft;
+        b.y = b.offsetTop;
+      }
+
+      var lastOne = bodys[bodys.length-1];
+      switch (direction) {
+        case 'right':
+          lastOne.style.left = lastOne.offsetLeft + 20 + 'px';
+          break;
+        case 'left':
+          lastOne.style.left = lastOne.offsetLeft - 20 + 'px';
+          break;
+        case 'top':
+          lastOne.style.top = lastOne.offsetTop - 20 + 'px';
+          break;
+        case 'down':
+          lastOne.style.top = lastOne.offsetTop + 20 + 'px';
+          break;
+      }
+      lastOne.x = lastOne.offsetLeft;
+      lastOne.y = lastOne.offsetTop;
+
+      var r = collision(lastOne,food);
+      if(r){
+
+          var newbody = document.createElement('div');
+          newbody.setAttribute('class','item');
+          var x = food.x;
+          var y = food.y;
+          newbody.style.left = x + 'px';
+          newbody.style.top = y + 'px';
+          map.appendChild(newbody)
+          bodys.push(newbody)
+          map.removeChild(food);
+
+          SCORE++;
+          scoreLable.innerText = SCORE;
+          addFood();
+
+          // switch (true) {
+          //   case SCORE <10: SPEED = 300;break;
+          //   case SCORE >=10 && SCORE <20: SPEED = 200;break;
+          //   case SCORE >30: SPEED = 150;break;
+          //   case SCORE >50: SPEED = 100;break;
+          //   default:SPEED = 300;break;
+          // }
+      }
+
+      if(lastOne.x <0 || lastOne.x > 480 || lastOne.y <0 || lastOne.y >480){
+        gameover()
+      }
+
+      lastOne = bodys[bodys.length-1];
+      for(var i = 0;i< bodys.length-4;i++){
+        var b = bodys[i];
+        if(collision(b,lastOne)){
+          gameover();
+        }
+      }
+  }
+
+}
+
+function gameover(){
+    clearInterval(updateTimer)
+    setTimeout(function(){
+      overpage.style.display = 'block';
+    },500)
+
+}
+
+document.getElementById('restartbtn').onclick = function(){
+  map.innerHTML = ''
+  bodys = [];
+  updateTimer = setInterval(update,SPEED)
+  startGame();
+  addFood();
+  overpage.style.display = 'none';
+}
+
+function collision(a,b){
+  // console.log(b)
+  if(b.x + 20 > a.x && b.y+20 > a.y && b.x < a.x + 20 && b.y < a.y+20){
+    return true;
+  }else {
+    return false;
+  }
+}
+</script>
+  </body>
+</html>

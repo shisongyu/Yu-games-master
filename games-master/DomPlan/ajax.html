@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="http://libs.useso.com/js/zepto/1.1.1/zepto.min.js"></script>
+	</head>
+	<body>
+		
+		<script>
+			
+			// url: 'http://example.com/projects?callback=?',
+
+			$.ajaxJSONP({
+			  url: 'http://10.0.14.182:3000/api?callback=?',
+			  success: function(data){
+			    // data is a js object, such as Object or Array
+			    
+			    console.log(data);
+			  }
+			})
+			
+		</script>
+	</body>
+</html>
